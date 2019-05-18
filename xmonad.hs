@@ -153,7 +153,7 @@ tlHook x = dynamicLogWithPP $ def
     , ppHiddenNoWindows    = (\x -> "^fg(" ++ colorGray ++ ")" ++ x)
     , ppHidden             = (\x -> "^fg(" ++ colorWhite ++ ")" ++ x)
     , ppCurrent            = (\x -> "^fg(" ++ colorWhite ++ ")[" ++ x ++ "]")
-    , ppVisible            = (\x -> "^fg()<" ++ x ++ ">")
+    , ppVisible            = (\x -> "^fg(" ++ colorWhite ++ ")" ++ x)
     , ppExtras             = [defaultLayoutL]
     }
 tcHook x = dynamicLogWithPP $ def
