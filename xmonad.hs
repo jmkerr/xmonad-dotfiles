@@ -65,6 +65,7 @@ main = do
     xmonad $ docks def
         {
           modMask               = mod4Mask
+        , terminal              = "gnome-terminal"
         , normalBorderColor     = colorBlack
         , focusedBorderColor    = colorWhite
         , borderWidth           = 1
@@ -154,6 +155,7 @@ tlHook x = dynamicLogWithPP $ def
     , ppHidden             = (\x -> "^fg(" ++ colorWhite ++ ")" ++ x)
     , ppCurrent            = (\x -> "^fg(" ++ colorWhite ++ ")[" ++ x ++ "]")
     , ppVisible            = (\x -> "^fg(" ++ colorWhite ++ ")" ++ x)
+    , ppVisibleNoWindows   = Just (\x -> "^fg(" ++ colorGray ++ ")" ++ x)
     , ppExtras             = [defaultLayoutL]
     }
 tcHook x = dynamicLogWithPP $ def
