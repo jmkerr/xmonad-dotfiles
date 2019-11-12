@@ -92,10 +92,10 @@ addKeys =
     , ((0, 0x1008FFB2), spawn "amixer set Capture toggle")
     ] ++
     --{{{ Multiple Screens
-    [ ((modM, xK_w), viewScreen 0)
-    , ((modM, xK_e), viewScreen 1)
-    , ((modM .|. shiftMask, xK_w), sendToScreen 0)
-    , ((modM .|. shiftMask, xK_e), sendToScreen 1)
+    [ ((modM, xK_w), viewScreen def 0)
+    , ((modM, xK_e), viewScreen def 1)
+    , ((modM .|. shiftMask, xK_w), sendToScreen def 0)
+    , ((modM .|. shiftMask, xK_e), sendToScreen def 1)
     , ((modM, xK_a), spawn extendToVGA)
     , ((modM, xK_s), spawn mirrorToVGA)
     , ((modM, xK_d), spawn disableVGA)
@@ -167,7 +167,7 @@ trHook x = dynamicLogWithPP $ def
     { ppOrder     = \(_:_:_:x) -> x
     , ppOutput    = hPutStrLn x
     , ppSep       = "^fg(" ++ colorGray ++ ")|^fg()"
-    , ppExtras    = [tempL, batteryL, dropboxL, defaultDateL]
+    , ppExtras    = [tempL, batteryL, dropboxL, wifiLevelL, defaultDateL]
     }
 --}}}
 
@@ -193,6 +193,13 @@ defaultTitleL = shortenL 100 logTitle
 defaultWorkspaceL :: Logger
 defaultWorkspaceL = logCurrent
 
+wifiLevelL :: Logger
+wifiLevelL = onLogger format $ logCmd "awk 'NR==3 {print substr($4, 1,3)}' /proc/net/wireless" where
+    format x
+        | nx x > -67    = "^fg(" ++ colorGray ++ ")" ++ x ++ "dBm"
+        | otherwise     = "^fg(" ++ colorRed ++ ")" ++ x ++ "dBm"
+    nx x = read x :: Integer
+
 dropboxL :: Logger
 dropboxL = onLogger format $ logCmd "/usr/bin/dropbox status" where
     format x
@@ -203,9 +210,8 @@ dropboxL = onLogger format $ logCmd "/usr/bin/dropbox status" where
 batteryL :: Logger
 batteryL = onLogger format $ logCmd "cat /sys/class/power_supply/BAT0/capacity" where
     format x
-        | nx x > 90   = ""
-        | nx x > 50   = "^fg(" ++ colorGray ++ ")" ++ x ++ "%"
-        | nx x > 25   = "^fg(" ++ colorYellow ++ ")" ++ x ++ "%"
+        | nx x > 25   = "^fg()" ++ x ++ "%"
+        | nx x > 10   = "^fg(" ++ colorYellow ++ ")" ++ x ++ "%"
         | otherwise   = "^fg(" ++ colorRed ++ ")" ++ x
     nx x = read x :: Integer
 
