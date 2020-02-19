@@ -127,6 +127,7 @@ colorWhite  = "#ffffff"
 defaultStartupHook =
         (setDefaultCursor xC_left_ptr)
     <+> (spawn "/usr/bin/feh --bg-scale /usr/share/backgrounds/warty-final-ubuntu.png")
+    <+> (spawn "/usr/bin/setxkbmap -option compose:prsc")
     <+> (liftIO $ threadDelay 1000000)
     <+> (startTimer 1 >>= XS.put . TID)
 --}}}
