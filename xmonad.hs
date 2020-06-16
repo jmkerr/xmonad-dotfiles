@@ -96,18 +96,18 @@ addKeys =
     , ((modM, xK_e), viewScreen def 1)
     , ((modM .|. shiftMask, xK_w), sendToScreen def 0)
     , ((modM .|. shiftMask, xK_e), sendToScreen def 1)
-    , ((modM, xK_a), spawn extendToVGA)
-    , ((modM, xK_s), spawn mirrorToVGA)
-    , ((modM, xK_d), spawn disableVGA)
+    , ((modM, xK_a), spawn extendToDP)
+    , ((modM, xK_s), spawn mirrorToDP)
+    , ((modM, xK_d), spawn disableDP)
     ---}}}
     ]
     where
         modM = mod4Mask
         lock = "gnome-screensaver-command -l & sleep 3 && xset dpms force off"
         menu = "dmenu_run"
-        extendToVGA = "/usr/bin/xrandr --output VGA-1 --auto && /usr/bin/xrandr --output VGA-1 --right-of LVDS-1"
-        mirrorToVGA = "/usr/bin/xrandr --output VGA-1 --auto && /usr/bin/xrandr --output VGA-1 --same-as LVDS-1"
-        disableVGA = "/usr/bin/xrandr --output VGA-1 --off"
+        extendToDP = "/usr/bin/xrandr --output DP-1 --auto && /usr/bin/xrandr --output DP-1 --right-of LVDS-1"
+        mirrorToDP = "/usr/bin/xrandr --output DP-1 --auto && /usr/bin/xrandr --output DP-1 --same-as LVDS-1"
+        disableDP = "/usr/bin/xrandr --output DP-1 --off"
 --}}}
 
 
